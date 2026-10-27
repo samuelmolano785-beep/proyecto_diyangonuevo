@@ -1,0 +1,85 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>
+        {%block title%}
+        
+       {% endblock %}
+        ADSO SENA
+       
+    </title>
+     {% load static %} 
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css'%}"/>
+</head>
+   
+
+<body>
+
+    <!--Cabecera de la pagina-->
+    <header>
+        <div id="logotipo">
+            <!--Logo Django-->
+            <img src="{% static 'images/django.png' %}"/>
+        <h1>Proyecto con  Django</h1>
+        </div>             
+    </header>
+
+    <nav>
+        <ul>
+            <li>
+                <a href= "{% url 'index' %}">Inicio</a>
+            </li>
+            {% if user.email %}
+                <li>
+                    <a href= "{% url 'list_articles' %}">Categorias</a>
+                    <ul>
+                        {% for category in categories %}  
+                            <li>
+                                <a href= "{% url 'category' category.0 %}">{{category.1}}</a>
+                            </li>
+                        {% endfor %}
+                        
+                     </ul>
+              </li>
+                {% for page in pages %}          
+                <li>
+                    <a href="{% url 'page' page.2 %}">{{page.1}}</a>
+                </li>           
+                {% endfor %}   
+                  <li>
+                    <a href= "{% url 'logout' %}">Cerrar Seccion</a>
+                </li>    
+                <li>
+                
+            {% else %}  
+                <li>
+                    <a href= "{% url 'register' %}">Registro</a>
+                </li>    
+                <li>
+                    <a href= "{% url 'login' %}">Login</a>
+                </li>
+            {% endif %}  
+
+       </ul>
+    </nav>  
+
+    <div id="content">
+        <div class="box">
+           
+            <h2 class="title"></h2>
+            {% block content %}
+            <!-- codigo que viene de template  -->
+            <strong>Contenido del bloque original!!!</strong>
+            {% endblock %}
+        </div>  
+        <div class="clearfix"></div>    
+    </div>
+    <hr>
+    <footer>
+       Programacion con Django - ADSO 2026 &copy; Instructor Moises Garcia - {% now "d/m/y" %}
+    </footer>
+</body>
+</html>
